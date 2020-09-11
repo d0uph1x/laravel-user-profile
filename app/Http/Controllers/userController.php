@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Auth;
 use Hash;
-use bycrypt;
+
 class userController extends Controller
 {
     public function uploadPix(Request $request){
@@ -30,11 +30,8 @@ class userController extends Controller
     		return back()->with('error','Password and Confirm Password fields dont match');
     	}
     	else{
-    	$user = Auth::user();
-    	$user->password = Hash::make($request->get('new_password'));
-    	$user->save();
+   		User::find(auth()->user()->id)->update(['password' => Hash::make($request->get('new_pass'))]);
     	return back()->with('message','Password changed');
-
     	}
 
     }
